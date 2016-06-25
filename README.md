@@ -33,10 +33,6 @@ The following **optional** features are implemented:
 * [ ] Hides the `Toolbar` at the top as the user scrolls down through the results using the [CoordinatorLayout and AppBarLayout](http://guides.codepath.com/android/Using-the-App-ToolBar#reacting-to-scroll).
 * [ ] Leverage the popular [GSON library](http://guides.codepath.com/android/Using-Android-Async-Http-Client#decoding-with-gson-library) to streamline the parsing of JSON data and avoid manual parsing.
 
-The following **additional** features are implemented:
-
-None
-
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
@@ -56,7 +52,7 @@ Creating the Endless Scroll functionality was difficult to implement, and at tim
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2016] [Matias Hanco]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
