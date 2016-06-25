@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,12 +17,24 @@ import android.widget.TextView;
 import com.example.matiash.newyorktimessearchproject.DatePickerFragment;
 import com.example.matiash.newyorktimessearchproject.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class FiltersFragment extends DialogFragment implements DatePickerFragment.OnDatePickerFragmentSetDateListener{
 
-    TextView tvDate;
-    Spinner spSort;
-    CheckBox cbArts, cbEducation, cbSports;
-    Button bnFilterSearch;
+    @BindView(R.id.tvDate) TextView tvDate;
+    @BindView(R.id.spSort) Spinner spSort;
+    @BindView(R.id.cbArts) CheckBox cbArts;
+    @BindView(R.id.cbEducation) CheckBox cbEducation;
+    @BindView(R.id.cbSports) CheckBox cbSports;
+    @BindView(R.id.bnFilterSearch) Button bnFilterSearch;
+
+//    TextView tvDate;
+//    Spinner spSort;
+//    CheckBox cbArts;
+//    CheckBox cbEducation;
+//    CheckBox cbSports;
+//    Button bnFilterSearch;
 
     public FiltersFragment() {
 
@@ -46,12 +57,13 @@ public class FiltersFragment extends DialogFragment implements DatePickerFragmen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_filter, container);
-        tvDate = (TextView)view.findViewById(R.id.tvDate);
-        spSort = (Spinner)view.findViewById(R.id.spSort);
-        cbArts = (CheckBox)view.findViewById(R.id.cbArts);
-        cbEducation = (CheckBox)view.findViewById(R.id.cbEducation);
-        cbSports = (CheckBox)view.findViewById(R.id.cbSports);
-        bnFilterSearch = (Button)view.findViewById(R.id.bnFilterSearch);
+//        tvDate = (TextView)view.findViewById(R.id.tvDate);
+//        spSort = (Spinner)view.findViewById(R.id.spSort);
+//        cbArts = (CheckBox)view.findViewById(R.id.cbArts);
+//        cbEducation = (CheckBox)view.findViewById(R.id.cbEducation);
+//        cbSports = (CheckBox)view.findViewById(R.id.cbSports);
+//        bnFilterSearch = (Button)view.findViewById(R.id.bnFilterSearch);
+        ButterKnife.bind(this,view);
         return view;
 
     }
@@ -67,7 +79,7 @@ public class FiltersFragment extends DialogFragment implements DatePickerFragmen
         spSort.setAdapter(spinnerAdapter);
 
         // Show soft keyboard automatically and request focus to field
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE); //We'll see what this does
+        //getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE); //We'll see what this does
 
         //Create a listener for the button
         bnFilterSearch.setOnClickListener(new View.OnClickListener() {

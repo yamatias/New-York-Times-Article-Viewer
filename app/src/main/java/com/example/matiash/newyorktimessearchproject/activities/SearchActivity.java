@@ -31,33 +31,36 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class SearchActivity extends AppCompatActivity implements FiltersFragment.OnFinishFiltersClickListener {
 
-
-    GridView gvResults;
     ArrayList<Article> articles;
     ArticleArrayAdapter adapter;
-    SearchView searchView;
     FragmentManager fm;
     RequestParams params = new RequestParams();
-    MenuItem imFilter;
     String inquiry;
+    SearchView searchView;
+    MenuItem imFilter;
+
+    @BindView(R.id.gvResults) GridView gvResults;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+
     final String ARTICLE_SEARCH = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
     final String TOP_STORIES = "https://api.nytimes.com/svc/topstories/v2/home.json";
     String url = ARTICLE_SEARCH;
-
     boolean titleOn = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Top Stories");
-
-        gvResults = (GridView)findViewById(R.id.gvResults);
+        
         articles = new ArrayList<>();
         adapter = new ArticleArrayAdapter(this,articles);
         gvResults.setAdapter(adapter);
@@ -147,7 +150,7 @@ public class SearchActivity extends AppCompatActivity implements FiltersFragment
                 imFilter.setVisible(true);
 
                 //Resetting params so that filters don't get applied during the next search
-                params = new RequestParams();
+                resetParams();
 
                 //Clearing articles to load new items on the first page
                 articles.clear();
@@ -175,6 +178,7 @@ public class SearchActivity extends AppCompatActivity implements FiltersFragment
             public boolean onClose() {
                 imFilter.setVisible(false);
                 articles.clear(); //resets the current articlees
+                resetParams();
                 loadDataFromPageNumber(TOP_STORIES,null,0); //Closing search query will load top stories
                 return false;
             }
@@ -213,6 +217,8 @@ public class SearchActivity extends AppCompatActivity implements FiltersFragment
 
     @Override
     public void OnFinishFiltersClick(Bundle bundle) {
+        resetParams();
+
         String sort = bundle.getString("sort");
         String date = bundle.getString("date");
         String[] checkBoxes = bundle.getStringArray("checkBoxes");
@@ -233,8 +239,10 @@ public class SearchActivity extends AppCompatActivity implements FiltersFragment
             params.put("begin_date",formattedDate);
         }
 
-        //Adding sort param - TODO make a no sort spinner option if you want
-        params.put("sort",sort.toLowerCase());
+        //Adding sort param if it's not None
+        if(!sort.equals("None")) {
+            params.put("sort", sort.toLowerCase());
+        }
 
         //Formatting NewsDesk parameter
         String newsdesk = "news_desk:(";
@@ -259,5 +267,9 @@ public class SearchActivity extends AppCompatActivity implements FiltersFragment
         fm = getSupportFragmentManager();
         FiltersFragment filtersFragment = FiltersFragment.newInstance("Filters");
         filtersFragment.show(fm,"fragment_filters"); //this will load up the fragment!
+    }
+
+    public void resetParams() {
+        params = new RequestParams();
     }
 }

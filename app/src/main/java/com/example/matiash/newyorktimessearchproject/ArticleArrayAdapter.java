@@ -9,9 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by matiash on 6/20/16.
@@ -37,6 +39,7 @@ public class ArticleArrayAdapter extends ArrayAdapter<Article>{
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_article_result, parent, false);
             viewHolder = new ViewHolder();
+            ButterKnife.bind(convertView);
             viewHolder.ivImage = (ImageView)convertView.findViewById(R.id.ivImage);
             viewHolder.tvTitle = (TextView)convertView.findViewById(R.id.tvTitle);
             convertView.setTag(viewHolder);
@@ -50,8 +53,11 @@ public class ArticleArrayAdapter extends ArrayAdapter<Article>{
         // Populate the data into the template view using the data object
         viewHolder.tvTitle.setText(article.getHeadline());
         if(!TextUtils.isEmpty(article.getThumbnail())) {
-            Picasso.with(getContext()).load(article.getThumbnail()).into(viewHolder.ivImage);//.resize(viewHolder.ivImage.getMaxWidth(),viewHolder.ivImage.getMaxHeight()).into(viewHolder.ivImage);
+            Glide.with(getContext()).load(article.getThumbnail()).fitCenter().into(viewHolder.ivImage);//.resize(viewHolder.ivImage.getMaxWidth(),viewHolder.ivImage.getMaxHeight()).into(viewHolder.ivImage);
+        } else {
+            Glide.with(getContext()).load(R.drawable.placeholder).fitCenter().into(viewHolder.ivImage);
         }
+
         // Return the completed view to render on screen
         return convertView;
     }
